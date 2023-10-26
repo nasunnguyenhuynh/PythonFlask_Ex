@@ -1,0 +1,82 @@
+1. Tạo cấu trúc thư mục: NameProject > website > static, templates, __init__.py, auth.py, model.py, views.py;main.py
+2. Cài đặt 
++ Python & extension trong VSCode
++ pip install flask
++ pip install flask-login
++ pip install flask-sqlalchemy
+#Trong main.py, bạn muốn import my_module.py từ my_package, bạn có thể sử dụng: 'from my_package import my_module'
+#Trong my_module.py và muốn import một mô-đun khác trong cùng thư mục, bạn có thể sử dụng: 'from . import another_module'
+
+
+3. Tìm hiểu '__init__.py'
++ '__name__' đại diện cho tệp đã đc cháy
++ 'app.config['SECRET_KEY']' mã hóa/ bảo mật cookies, dữ liệu liên quan đến website
++ Khi đặt '__init__.py' vào folder nào thì nơi đấy thành package  
+
++ 'main.py' nằm ngoài website (package), ta nhập package vào main.py
++ 'if __name__ == '__main__':': Chỉ khi chạy tệp này (chứa lệnh đó) chứ ko phải chỉ nhập tệp này
++ 'debug = True': Tự động tải lại ứng dụng khi thay đổi mã nguồn, hiển thị thông báo lỗi chi tiết, không caching, bảo mật yếu (không sử dụng trong môi trường sản xuất)
+
+4. Sửa lỗi 'No module name flask'
++ Ctrl + Shift + P
++ Python Interpreter -> 64bit
++ '__pycahe__' được tạo khi ứng dụng chạy được
+
+5. Tạo Route cho 'Views.py'
++ 'Blueprint' thư viện được cung cấp nhằm tạo cấu trúc các thành phần độc lập của ứng dụng để quản lý
++ Tính năng: phân chia ứng dụng lớn thành các phần con, tách URL & function resolve, kế thừa cấu hình
++ 'pass' keyword: Place holder for future code
++ Đăng ký Blueprint 'views', 'auth' tại '__init__.py'
++ 'url_prefix' dùng để mặc định tiền tố trước các URL đc Route trong 'views.py'
++ 'app' tại '__init__.py' là toàn bộ package
+
+6. Tìm hiểu 'templates'
++ install Jinja for VSCode
++ Ngôn ngữ Jinja (được dùng vs flask, cho phép viết python tron HTML-> Không cần JS mà vẫn có thể hiển thị được) ({%%})
++ Tạo 'base.html', link vs bootstrap & js, custom navbar
++ Tạo 'home.html' dựa trên 'base.html' và có khả năng ghi đè block trong đó
+
++ Những thứ tĩnh (ko thay đổi nhiều), CSS/JS đưa vào static folder 
++ Tạo các templates (Hiển thị HTML)
++ Có thể thêm nhiều biến trả về trong 'render_template'
++ Viết câu điều kiện 
++ Form: 
+    'for' attribute of 'label' match with 'id' of 'input'
+    'name' attribute of 'input' indicate name to distinguish to other
+
+7. Tìm hiểu POST/GET method
++ Gán 'POST' vào form, 'GET' khi loading page; thêm 'GET/POST' vào Route
++ Thêm lib 'request' vào 'auth.py' và tạo 'data' variable để nhận dữ liệu đc POST từ client
+
+8. Tìm hiểu Message Flashing
++ Thêm lib 'flash' vào 'auth.py', thêm biến 'category' và giá trị
++ 'role' attribute: ARIA standard
+
+9. Tìm hiểu Flask sqlalchemy setup: class is used to control the SQLAlchemy integration to one or more Flask applications
++ Thêm 'flask_sqlalchemy' vào '__init__'
+
+10. Tìm hiểu database models
++ SQLite là một hệ quản lý cơ sở dữ liệu. SQLite không yêu cầu một máy chủ cơ sở dữ liệu riêng biệt và lưu trữ dữ liệu trong một tệp đơn giản, giúp làm cho nó dễ dàng triển khai và sử dụng trong các ứng dụng nhỏ và đơn giản.
++ Tạo Note, User class 
+
+11. Tìm hiểu ForeignKey Relationship
++ Quy ước viết class (UpperCase) và khóa ngoại (LowerCase)
+
+12. Tìm hiểu Database Creation
++ Add 'from os import path', 'from .models import User, Note', 'create_database' in '__init__.py'
++ ERROR: SQLAlchemy.create_all() got an unexpected keyword argument 'app'
++ Đặt tệp CSDL trong thư mục 'instance'
+
+13. Create User Account
++ cannot import name 'url_decode' from 'werkzeug.urls': Lỗi của phiên bản werkzeug --> hạ xuống bản 2.3.0
+
+14. Logging in User
++ 'user = User.query.filter_by(email=email).first()': Xác định email có được sử dụng hay chưa
++ Khi đăng nhập thành công, chuyển người dùng về trang chủ 
+
+15. Flask Login Module
++ 'UserMixin' trong 'models.py' dùng để sử dụng 'current_user'
++ 'remember=True' trong 'auth.py' dùng để ghi nhớ người dùng đăng nhập cho đến khi logout/ xóa lịch sử duyệt web
++ cannot import name 'db' from partially initialized module 'website' (most likely due to a circular import)": Lỗi khi import class từ các module lẫn nhau tạo nên các vòng lặp
+
+16. Checking if user is login
